@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TRTSekreterya.Models.sirket>
+
+@{
+    ViewBag.Title = "Liste";
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Yeni Kayıt", "Olustur")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.sirketAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sirketSektor)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.sirketAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sirketSektor)
+            </td>
+            <td>
+                @Html.ActionLink("Düzenle", "Duzenle", new { id = item.sirketID }) |
+
+                @Html.ActionLink("Detay", "Detay", new { id = item.sirketID }) |
+
+                <a id="silKontrol" href="/Sirket/Sil/@item.sirketID" onclick='return confirm("Emin misiniz");' class="glyphicon glyphicon-remove">Sil</a>
+            </td>
+        </tr>
+    }
+
+</table>

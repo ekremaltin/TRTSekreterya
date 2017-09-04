@@ -1,0 +1,98 @@
+﻿@model TRTSekreterya.Models.sirket
+
+@{
+    ViewBag.Title = "Şirket Detay";
+}
+
+<h2>Detaylar</h2>
+
+<div>
+    <h4>@Model.sirketAdi Detaylı Bilgi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.sirketAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sirketAdi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sirketSektor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sirketSektor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sirketSorumluAdiSoyadi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sirketSorumluAdiSoyadi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sirketSorumluTel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sirketSorumluTel)
+        </dd>
+        @*EKLENENLER ADRES *@
+        <dt>
+            ülke
+        </dt>
+        <dd>
+            @Model.adre.ulke.ulkeAdi
+            @Html.DisplayFor(model => model.adre.ulke.ulkeAdi)
+        </dd>
+
+        <dt>
+            il
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.adre.sehir.sehirAdi)
+        </dd>
+
+        <dt>
+            ilce
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.adre.adresIlce)
+        </dd>
+
+        <dt>
+            Adres
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.adre.adresAdres)
+        </dd>
+
+        <dt>
+            Posta Kodu
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.adre.adresPostaKodu)
+        </dd>
+        @*EKLENENLER ADRES *@
+
+        @foreach (var item in Model.iletisimToSirkets)
+        {
+            <dt>
+                @item.iletisim.iletisimTip
+            </dt>
+            <dd>
+                @item.value
+            </dd>
+        }
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Duzenle", "Duzenle", new { id = Model.sirketID }) |
+    @Html.ActionLink("Back to List", "Liste")
+</p>

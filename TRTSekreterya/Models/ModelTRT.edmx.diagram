@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8e11da5f90ea46ea9678cd2aad0e72a0" Name="Diagram1">
+        <EntityTypeShape EntityType="RandevuModel.adre" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.birim" Width="1.5" PointX="10.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.iletisim" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.iletisimToKisi" Width="1.5" PointX="15" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.iletisimToSirket" Width="1.5" PointX="9.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.kisi" Width="1.5" PointX="12.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.plan" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.planToKisi" Width="1.5" PointX="15" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.sehir" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.sirket" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.ulke" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.user" Width="1.5" PointX="10.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuModel.yetkiLogin" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="RandevuModel.FK_adres_kisi" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_adres_sehir" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_adres_ulke" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_sirket_adres" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_kisi_birim" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_kullanici_birim" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_iletisimToKisi_iletisim" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_iletisimToSirket_iletisim" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_iletisimToKisi_kisi" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_iletisimToSirket_sirket" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_kisiler_sirket" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_planToKisi_kisi" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_plan_user" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_planKisi_plan" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_Cities_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuModel.FK_users_yetki" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
