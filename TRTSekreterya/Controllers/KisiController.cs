@@ -24,6 +24,11 @@ namespace TRTSekreterya.Controllers
             return RedirectToAction("Login", "users");
         }
 
+        public JsonResult getKisiler()
+        {
+            var liste = new SelectList(db.kisis,"kisiID","kisiAdi");
+            return new JsonResult { Data = liste, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
         // GET: Kişi Detaylı Bilgi
         public ActionResult Detay(int? id)
         {

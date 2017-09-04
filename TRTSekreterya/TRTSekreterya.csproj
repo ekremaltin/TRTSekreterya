@@ -133,6 +133,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KisiController.cs" />
     <Compile Include="Controllers\SirketController.cs" />
+    <Compile Include="Controllers\TakvimController.cs" />
     <Compile Include="Controllers\usersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -143,6 +144,8 @@
     <Compile Include="Models\birim.cs">
       <DependentUpon>ModelTRT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\getModels\getPlan.cs" />
+    <Compile Include="Models\getModels\getPTK.cs" />
     <Compile Include="Models\iletisim.cs">
       <DependentUpon>ModelTRT.tt</DependentUpon>
     </Compile>
@@ -191,6 +194,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\MyCss\TabModal.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -223,6 +227,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\myJS\calendar.js" />
+    <Content Include="Scripts\myJS\multiSelect.js" />
+    <Content Include="Scripts\myJS\tabT.js" />
+    <Content Include="Scripts\myJS\cascadingUS.js" />
+    <Content Include="Scripts\myJS\dinamikA.js" />
+    <Content Include="Scripts\myJS\dinamikFormK.js" />
+    <Content Include="Scripts\myJS\dinamikFormS.js" />
+    <Content Include="Scripts\myJS\dinamikTabP.js" />
+    <Content Include="Scripts\myJS\trCalendar.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -254,6 +267,8 @@
     <Content Include="Views\users\Edit.cshtml" />
     <Content Include="Views\users\Index.cshtml" />
     <Content Include="Views\users\Login.cshtml" />
+    <Content Include="Views\Takvim\Takvim.cshtml" />
+    <Content Include="Scripts\myJS\momentt.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
