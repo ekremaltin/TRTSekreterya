@@ -144,6 +144,7 @@
     <Compile Include="Models\birim.cs">
       <DependentUpon>ModelTRT.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\getModels\getKisi.cs" />
     <Compile Include="Models\getModels\getPlan.cs" />
     <Compile Include="Models\getModels\getPTK.cs" />
     <Compile Include="Models\iletisim.cs">
@@ -228,7 +229,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\myJS\calendar.js" />
-    <Content Include="Scripts\myJS\multiSelect.js" />
+    <Content Include="Scripts\myJS\multiList.js" />
     <Content Include="Scripts\myJS\tabT.js" />
     <Content Include="Scripts\myJS\cascadingUS.js" />
     <Content Include="Scripts\myJS\dinamikA.js" />

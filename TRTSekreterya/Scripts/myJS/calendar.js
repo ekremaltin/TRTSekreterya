@@ -174,14 +174,26 @@ $('#btnSave').click(function () {
         return;
     }
     else {
-        var startDate = moment($('#txtStart').val(), "DD/MM/YYYY HH:mm").toDate();
-        var endDate = moment($('#txtEnd').val(), "DD/MM/YYYY HH:mm").toDate();
+        var startDate = moment($('#txtStart').val(), "DD.MM.YYYY HH:mm").toDate();
+        var endDate = moment($('#txtEnd').val(), "DD.MM.YYYY HH:mm").toDate();
         if (startDate > endDate) {
             alert('Invalid end date');
             return;
         }
     }
-
+    
+    var ptkisiler = [];
+    if ($('#multi-select').val() != null) {
+        alert($('#multi-select').val());       
+        $.each($('#multi-select').val(), function (i, v) {
+            ptkisiler.push({
+                pkID: 0,
+                pkKisiID: v,
+                pkPlanID: $('#hdEventID').val(),
+                pkisSource: false
+            })
+        });
+    }
     var data = {
         planID: $('#hdEventID').val(),
         planKisaBilgi: $('#txtSubject').val().trim(),
@@ -191,7 +203,8 @@ $('#btnSave').click(function () {
         planColor: $('#ddThemeColor').val(),
         planFullDay: $('#chkIsFullDay').is(':checked'),
         planMekan: $('#txtMekan').val().trim(),
-        planEkBilgi: $('#txtEkBilgi').val()
+        planEkBilgi: $('#txtEkBilgi').val(),
+        planToKisis: ptkisiler
     }
     SaveEvent(data);
     // call function for submit data to the server 
@@ -225,7 +238,7 @@ function openAddEditForm() {
         $('#ddThemeColor').val(selectedEvent.color);
         $('#txtMekan').val(selectedEvent.place);
         $('#txtEkBilgi').val(selectedEvent.ekBilgi);
-        //$('#framework').multiselect('select', getKisiID(selectedEvent.kisiler));
+        $('#multi-select').multiselect('select', getKisiID(selectedEvent.kisiler));
         //$('#framework3').multiselect('select', getSahipID(selectedEvent.kisiler));
     }
     $('#myModal').modal('hide');

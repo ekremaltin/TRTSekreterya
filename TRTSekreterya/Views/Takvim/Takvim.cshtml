@@ -1,30 +1,34 @@
-﻿
+﻿@model TRTSekreterya.Models.user
 @{
     ViewBag.Title = "Takvim";
+    List<TRTSekreterya.Models.getModels.getKisi> yntmListe = ViewBag.yntmListe;
+    int dng = yntmListe.Count();
 }
+
+@*HIDDEN INPUTS*@
+<input type="hidden" id="whichTab" value="#calendar" />
+<input type="hidden" id="usrID" value="@Model.userID" />
+<input type="hidden" id="tabKisiID" value="@yntmListe[0].kisiID" />
+<input type="hidden" id="tabKisiID" value="@yntmListe[0].kisiID" />
 
 <h2>Takvim</h2>
 <button id="add_tab">Add Tab</button>
-<select id="multi-select" multiple="multiple"></select>
 <div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">Nunc tincidunt</a></li>
-        <li><a href="#tabs-2">Proin dolor</a></li>
-        <li><a href="#tabs-3">Aenean lacinia</a></li>
+    <ul>       
+        @for (int i = 0; i < dng; i++)
+        {
+            <li><a href="#tabs-@(i+1)"><span id="@yntmListe[i].kisiID">@yntmListe[i].kisiAdi</span></a></li>
+        }   
     </ul>
     <div id="tabs-1">
         <p><div id="calendar"></div></p>
     </div>
-    <div id="tabs-2">
-        <p>
-            <div id="calendar2">
-                
-            </div>
-        </p>
+   @for (int idx = 0; idx < dng-1; idx++)
+   {
+    <div id="tabs-@(idx+2)">
+        <p><div id="calendar@(idx+2)"></div></p>
     </div>
-    <div id="tabs-3">
-        <p><div id="calendar3"></div></p>
-    </div>
+   }
 </div>
 <div id="dialog" title="Tab data">
     <form>
@@ -94,6 +98,10 @@
                         <input type="text" id="txtMekan" class="form-control" />
                     </div>
                     <div class="form-group">
+                        <label>Kişiler</label><br />
+                        <select id="multi-select" multiple="multiple"></select>
+                    </div>
+                    <div class="form-group">
                         <label>Ek Bilgi</label>
                         <textarea id="txtEkBilgi" rows="3" class="form-control"></textarea>
                     </div>
@@ -114,8 +122,7 @@
         </div>
     </div>
 </div> @*SAVE CLICK FORM*@
-@*HIDDEN INPUTS*@
-<input type="hidden" id="whichTab" value="#calendar" />
+
 @*CSS TANIMLAMARI*@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="~/Content/MyCss/TabModal.css" rel="stylesheet" />
@@ -132,7 +139,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/myJS/calendar.js"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
-    <script src="~/Scripts/myJS/multiSelect.js"></script>
+    <script src="~/Scripts/myJS/multiList.js"></script>
 
 }
 

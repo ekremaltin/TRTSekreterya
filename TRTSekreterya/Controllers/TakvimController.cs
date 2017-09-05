@@ -10,11 +10,24 @@ namespace TRTSekreterya.Controllers
 {
     public class TakvimController : Controller
     {
+
         // GET: Takvim
         public ActionResult Takvim()
         {
-            
-            return View();
+            if (Session["id"] != null)
+            {
+                using (RandevuEntities db = new RandevuEntities())
+                {
+                    int usrID = Convert.ToInt32(Session["id"]);
+                    var usr = db.users.Find(usrID);
+                    ViewBag.yntmListe = db.kisis.Where(m => m.kisiTakvimKilit == true && m.birimID == usr.userBirimID).OrderBy(m => m.kisiUnvan).Select(m => new getKisi {
+                        kisiID = m.kisiID,
+                        kisiAdi=m.kisiAdi
+                    }).ToList();
+                    return View(usr);
+                }
+            }
+            return RedirectToAction("Login", "users");
         }
 
         public JsonResult GetEvents()
@@ -58,7 +71,7 @@ namespace TRTSekreterya.Controllers
                 }
                 var pListe = planList.GroupBy(a => a.planID).Select(a => a.FirstOrDefault());
                 return Json(pListe, JsonRequestBehavior.AllowGet);
-            }            
+            }
         }
 
         [HttpPost]
@@ -114,7 +127,7 @@ namespace TRTSekreterya.Controllers
                 db.SaveChanges();
                 status = true;
                 return new JsonResult { Data = new { status = status } };
-            }            
+            }
         }
 
         [HttpPost]
@@ -131,7 +144,7 @@ namespace TRTSekreterya.Controllers
                     status = true;
                 }
                 return new JsonResult { Data = new { status = status } };
-            }            
+            }
         }
     }
 }
