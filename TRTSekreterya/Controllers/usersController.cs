@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TRTSekreterya.Models;
+using System.DirectoryServices.AccountManagement;
 
 namespace TRTSekreterya.Controllers
 {
@@ -29,7 +30,10 @@ namespace TRTSekreterya.Controllers
         {
             return View();
         }
-
+       
+            //Active Directory Bağlantısı
+            
+    
         [HttpPost]
         public ActionResult Login(user user)
         {
@@ -37,18 +41,31 @@ namespace TRTSekreterya.Controllers
             if (ModelState.IsValid)
             {
                 var usr = db.users.Where(u => u.username == user.username && u.password == user.password).FirstOrDefault();
-                if (usr != null)
-                {
-                    Session["id"] = usr.userID;
-                    Session["Ad"] = usr.userAdSoyad;
-                    Session["yetki"] = usr.userYetkiID;
-                    Session["birim"] = usr.userBirimID;
-                    return RedirectToAction("Liste", "Kisi");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı.");
-                }
+                //using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, "dcmerkez1.int.trt.net.tr"))//172.16.0.138
+                //{
+
+                //    bool isValid = pc.ValidateCredentials(usr.username, usr.password);
+                //    if (isValid)
+                //    {
+
+                        if (usr != null)
+                        {
+                            Session["id"] = usr.userID;
+                            Session["Ad"] = usr.userAdSoyad;
+                            Session["yetki"] = usr.userYetkiID;
+                            Session["birim"] = usr.userBirimID;
+                            return RedirectToAction("Liste", "Kisi");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "my db Kullanıcı adı veya şifre hatalı.");
+                        }                        
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("","Active Directory'e Kayıtlı OLMAYAN Kullanıcı");
+                    //}
+                //}                
             }
             return View();
         }

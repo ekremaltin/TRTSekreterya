@@ -6,37 +6,33 @@
 }
 
 @*HIDDEN INPUTS*@
-<input type="hidden" id="whichTab" value="#calendar" />
+<input type="hidden" id="whichTab" value="#calendar1" />
+<input type="hidden" id="birimIDforTab" value="@Model.userBirimID" />
 <input type="hidden" id="usrID" value="@Model.userID" />
 <input type="hidden" id="tabKisiID" value="@yntmListe[0].kisiID" />
-<input type="hidden" id="tabKisiID" value="@yntmListe[0].kisiID" />
+<input type="hidden" id="tabIndeks" value="@dng" />
 
 <h2>Takvim</h2>
-<button id="add_tab">Add Tab</button>
+<button id="add_tab">Takvim Kişileri</button>
 <div id="tabs">
     <ul>       
         @for (int i = 0; i < dng; i++)
         {
-            <li><a href="#tabs-@(i+1)"><span id="@yntmListe[i].kisiID">@yntmListe[i].kisiAdi</span></a></li>
+            <li id="sb@(i+1)"><a href="#tabs-@(i+1)"><span id="@yntmListe[i].kisiID">@yntmListe[i].kisiAdi</span></a></li>
         }   
-    </ul>
-    <div id="tabs-1">
-        <p><div id="calendar"></div></p>
-    </div>
-   @for (int idx = 0; idx < dng-1; idx++)
+    </ul>   
+   @for (int idx = 0; idx < dng; idx++)
    {
-    <div id="tabs-@(idx+2)">
-        <p><div id="calendar@(idx+2)"></div></p>
+    <div id="tabs-@(idx+1)">
+        <p><div id="calendar@(idx+1)"></div></p>
     </div>
    }
 </div>
 <div id="dialog" title="Tab data">
     <form>
         <fieldset class="">
-            <label for="tab_title">Title</label>
-            <input type="text" name="tab_title" id="tab_title" value="Tab Title" class="ui-widget-content ui-corner-all">
-            <label for="tab_content">Content</label>
-            <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all">Tab content</textarea>
+            <label for="tableKeySelect">Kişiler İçin Takvim Güncelleme</label>
+            <select id="tabKeySelect" multiple="multiple"></select>
         </fieldset>
     </form>
 </div> @*YENİ SEKME POP-UP*@

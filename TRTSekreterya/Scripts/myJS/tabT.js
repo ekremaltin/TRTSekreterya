@@ -1,8 +1,8 @@
 ﻿$(function () {
     var tabTitle = $("#tab_title"),
       tabContent = $("#tab_content"),
-      tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
-      tabCounter = 4
+      tabTemplate = "<li id='#{id}'><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
+      tabCounter =  4
 
     var tabs = $("#tabs").tabs();
 
@@ -32,23 +32,28 @@
     });
 
     // Actual addTab function: adds new tab using the input from the form above
-    function addTab() {
-        var label = tabTitle.val() || "Tab " + tabCounter,
-          id = "tabs-" + tabCounter,
-          li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
-          tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
-
-        tabs.find(".ui-tabs-nav").append(li);
-        tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p></div>");
-        tabs.tabs("refresh");
-        tabCounter++;
+    function addTab() {       
+        $.ajax({
+            type: 'POST',
+            url: '/Kisi/ChangeTakvimKey',
+            data: { 'ids': $("#tabKeySelect").val() },
+            datatype: 'json',
+            success: function (data) {
+                if (data.status) {
+                    location.reload();
+                }                
+            },
+            error:function () {
+                alert('Failed');
+            }            
+        });        
     }
 
     // AddTab button: just opens the dialog
     $("#add_tab")
       .button()
       .on("click", function () {
-          dialog.dialog("open");
+          dialog.modal();
       });
 
     // Close icon: removing the tab on click
@@ -65,4 +70,13 @@
             tabs.tabs("refresh");
         }
     });
+
+    $(document).on('click', 'li[id^=sb]', function (e) {
+        var ID = $(this).children().children().attr('id');
+        var text = $(this).children().attr('href');
+        $('#whichTab').val(text);
+        $('#kaynakKisiID').val(ID);
+        FetchEventAndRenderCalendar(ID);
+
+    })
 });

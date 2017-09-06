@@ -1,15 +1,10 @@
 ﻿$(document).ready(function () {
-    FetchEventAndRenderCalendar();
+    var idKisi = $('#tabKisiID').val();
+    FetchEventAndRenderCalendar(idKisi);
     $('#txtStart,#txtEnd').datetimepicker();
 
 });
 var events=[];
-$('#calendar3').fullCalendar({
-    // put your options and callbacks here
-    dayClick: function () {
-        alert('a day has been clicked!');
-    }
-})
 $('#chkIsFullDay').change(function () {
     if ($(this).is(':checked')) {
         $('#divEndDate').hide();
@@ -41,12 +36,12 @@ function getSahipID(kisi) {
     }
     return idlist;
 }
-function FetchEventAndRenderCalendar() {
+function FetchEventAndRenderCalendar(ID) {
     events = [];
     $.ajax({
-        type: "get",
+        type: "post",
         url: "/Takvim/GetEvents",        
-        //data: { 'id': id },
+        data: { 'id': ID },
         success: function (data) {
             $.each(data, function (i, v) {
                 events.push({
@@ -72,6 +67,7 @@ function FetchEventAndRenderCalendar() {
     })
 }
 function GenerateCalender(events) {
+    $($("#whichTab").val()).empty();
     $($('#whichTab').val()).fullCalendar('destroy');
     $($('#whichTab').val()).fullCalendar({
         contentHeight: 400,
@@ -180,8 +176,7 @@ $('#btnSave').click(function () {
             alert('Invalid end date');
             return;
         }
-    }
-    
+    }    
     var ptkisiler = [];
     if ($('#multi-select').val() != null) {
         alert($('#multi-select').val());       

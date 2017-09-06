@@ -30,11 +30,11 @@ namespace TRTSekreterya.Controllers
             return RedirectToAction("Login", "users");
         }
 
-        public JsonResult GetEvents()
+        public JsonResult GetEvents(int? ID)
         {
             using (RandevuEntities db = new RandevuEntities())
             {
-                var id = 1026;
+                var id = ID;
                 var ce = db.planToKisis.Where(m => m.pkKisiID == id).Select(m => new getPTK
                 {
                     pkID = m.pkID,

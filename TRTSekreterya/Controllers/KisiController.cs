@@ -29,6 +29,42 @@ namespace TRTSekreterya.Controllers
             var liste = new SelectList(db.kisis,"kisiID","kisiAdi");
             return new JsonResult { Data = liste, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+        public JsonResult getBirimKisiler(int? id)
+        {
+            var liste = new SelectList(db.kisis.Where(m=>m.birimID == id), "kisiID", "kisiAdi");
+            var trueList = db.kisis.Where(m => m.birimID == id && m.kisiTakvimKilit == true).Select(m=>m.kisiID).ToList();
+            return new JsonResult { Data = new { liste = liste, trueList = trueList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        public JsonResult ChangeTakvimKey(int[] ids)
+        {
+            List<int> diziList = ids.ToList();
+            var status = false;
+            using (RandevuEntities db = new RandevuEntities())
+            {
+                int firstKisiID = ids[0];
+                var birimID = db.kisis.Find(firstKisiID).birimID;
+                var birimTrueList = db.kisis.Where(m => m.kisiTakvimKilit == true && m.birimID==birimID).ToList();
+                foreach (var item in birimTrueList)
+                {
+                    if (ids.Contains(item.kisiID)==false)
+                    {                        
+                            item.kisiTakvimKilit = false;                       
+                    }
+                    else
+                    {
+                        diziList.Remove(item.kisiID);
+                    }                    
+                }
+                for (int i=0; i<diziList.Count();i++)
+                {
+                    int id = diziList[i];
+                    db.kisis.Where(m => m.kisiID == id).FirstOrDefault().kisiTakvimKilit = true;
+                }
+                db.SaveChanges();   
+                status = true;                
+                return new JsonResult { Data = new { status = status} };
+            }            
+        }
         // GET: Kişi Detaylı Bilgi
         public ActionResult Detay(int? id)
         {
