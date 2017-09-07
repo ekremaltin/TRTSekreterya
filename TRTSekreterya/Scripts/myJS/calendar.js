@@ -67,8 +67,8 @@ function FetchEventAndRenderCalendar(ID) {
     })
 }
 function GenerateCalender(events) {
-    $($("#whichTab").val()).empty();
     $($('#whichTab').val()).fullCalendar('destroy');
+    $($("#whichTab").val()).empty();
     $($('#whichTab').val()).fullCalendar({
         contentHeight: 400,
         defaultDate: new Date(),
@@ -111,6 +111,9 @@ function GenerateCalender(events) {
                 color: '',
                 kisiler: ''
             };
+            $('#multi-select').multiselect('deselectAll', false);
+            $('#multi-select').multiselect('updateButtonText');
+
             openAddEditForm();
             $($('#whichTab').val()).fullCalendar('unselect');
         },
@@ -145,7 +148,7 @@ $('#btnDelete').click(function () {
             success: function (data) {
                 if (data.status) {
                     //Refresh the calender
-                    FetchEventAndRenderCalendar();
+                    FetchEventAndRenderCalendar($('#tabKisiID').val());
                     $('#myModal').modal('hide');
                 }
             },
@@ -178,6 +181,12 @@ $('#btnSave').click(function () {
         }
     }    
     var ptkisiler = [];
+    ptkisiler.push({
+        pkID: 0,
+        pkKisiID: $('#tabKisiID').val(),
+        pkPlanID: $('#hdEventID').val(),
+        pkisSource: true
+    });
     if ($('#multi-select').val() != null) {
         alert($('#multi-select').val());       
         $.each($('#multi-select').val(), function (i, v) {
@@ -187,7 +196,7 @@ $('#btnSave').click(function () {
                 pkPlanID: $('#hdEventID').val(),
                 pkisSource: false
             })
-        });
+        });        
     }
     var data = {
         planID: $('#hdEventID').val(),
@@ -212,7 +221,7 @@ function SaveEvent(data) {
         success: function (data) {
             if (data.status) {
                 //Refresh the calender
-                FetchEventAndRenderCalendar();
+                FetchEventAndRenderCalendar($('#tabKisiID').val());
                 $('#myModalSave').modal('hide');
             }
         },
@@ -222,6 +231,7 @@ function SaveEvent(data) {
     })
 }
 function openAddEditForm() {
+    
     if (selectedEvent != null) {        
         $('#hdEventID').val(selectedEvent.eventID);
         $('#txtSubject').val(selectedEvent.title);

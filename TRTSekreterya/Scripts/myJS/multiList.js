@@ -9,6 +9,7 @@
             $.each(data, function (index, option) {
                 kisiSelect.append('<option value=' + option.Value + '>' + option.Text + '</option>')
             });
+
             $("#multi-select").multiselect({
                 nonSelectedText: 'Toplantıya Katımlımcı Ekleyiniz',
                 includeSelectAllOption: true, //Tüm seçim
@@ -19,6 +20,7 @@
             });
         }
     });
+      
     var tabSelect = $("#tabKeySelect");
     tabSelect.empty();
     $('#add_tab').click(function () {
@@ -51,5 +53,4 @@
         }
         return selectedList;
     }
-
 });

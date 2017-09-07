@@ -53,7 +53,7 @@
     $("#add_tab")
       .button()
       .on("click", function () {
-          dialog.modal();
+          dialog.dialog("open");
       });
 
     // Close icon: removing the tab on click
@@ -74,9 +74,8 @@
     $(document).on('click', 'li[id^=sb]', function (e) {
         var ID = $(this).children().children().attr('id');
         var text = $(this).children().attr('href');
-        $('#whichTab').val(text);
-        $('#kaynakKisiID').val(ID);
+        $('#whichTab').val(text);   
+        $('#tabKisiID').val(ID);
         FetchEventAndRenderCalendar(ID);
-
     })
 });
