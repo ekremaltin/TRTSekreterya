@@ -63,38 +63,38 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Save Event</h4>
+                <h4 class="modal-title">Plan Kayıt</h4>
             </div>
             <div class="modal-body">
                 <form class="col-md-12 form-horizontal">
                     <input type="hidden" id="hdEventID" value="0" />
                     <div class="form-group">
-                        <label>Subject</label>
+                        <label>Başlık</label>
                         <input type="text" id="txtSubject" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label>Start</label>
+                        <label>Başlama Tarihi</label>
                         <input type="text" id="txtStart" class="form-control" />
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
-                            <label><input type="checkbox" id="chkIsFullDay" checked="checked" />  Is Full Day event</label>
+                            <label><input type="checkbox" id="chkIsFullDay" checked="checked" />  Full Gün</label>
                         </div>
                     </div>
                     <div class="form-group" id="divEndDate" style="display:none">
-                        <label>End</label>
+                        <label>Bitiş Tarihi</label>
                         <input type="text" id="txtEnd" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>İçerik</label>
                         <textarea id="txtDescription" rows="3" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Mekan</label>
+                        <label>Yer</label>
                         <input type="text" id="txtMekan" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label>Kişiler</label><br />
+                        <label>Plan Kişileri</label><br />
                         <select id="multi-select" multiple="multiple"></select>
                     </div>
                     <div class="form-group">
@@ -102,17 +102,17 @@
                         <textarea id="txtEkBilgi" rows="3" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Theme Color</label>
+                        <label>Plan Rengi</label>
                         <select id="ddThemeColor" class="form-control">
-                            <option value="">Default</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="black">Black</option>
-                            <option value="green">Green</option>
+                            <option value="">Varsayılan</option>
+                            <option value="red">Kırmızı</option>
+                            <option value="blue">Mavi</option>
+                            <option value="black">Siyah</option>
+                            <option value="green">Yeşil</option>
                         </select>
                     </div>
-                    <button type="button" id="btnSave" class="btn btn-success">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnSave" class="btn btn-success">Kaydet</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
                 </form>
             </div>
         </div>

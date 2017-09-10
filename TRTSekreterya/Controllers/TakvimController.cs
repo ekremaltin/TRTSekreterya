@@ -136,9 +136,17 @@ namespace TRTSekreterya.Controllers
             using (RandevuEntities db = new RandevuEntities())
             {
                 var status = false;
-                var v = db.plans.Where(a => a.planID == id).FirstOrDefault();
+                var v = db.plans.Find(id);
+                var ptks = db.planToKisis.Where(m => m.pkPlanID == id).ToList();
                 if (v != null)
                 {
+                    if (v != null)
+                    {
+                        for (int i = 0; i < ptks.Count(); i++)
+                        {
+                            db.planToKisis.Remove(ptks[i]);
+                        }
+                    }     
                     db.plans.Remove(v);
                     db.SaveChanges();
                     status = true;

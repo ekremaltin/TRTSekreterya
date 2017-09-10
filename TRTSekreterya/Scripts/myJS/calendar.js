@@ -72,11 +72,11 @@ function GenerateCalender(events) {
     $($('#whichTab').val()).fullCalendar({
         contentHeight: 400,
         defaultDate: new Date(),
-        timeFormat: 'h(:mm)',
+        timeFormat: 'h:mm',
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,basicWeek,basicDay,agenda'
+            right: 'month,agendaWeek,agendaDay,list,listWeek'
         },
         //dayClick: function(){
         //    alert('tıklandı');
@@ -85,16 +85,16 @@ function GenerateCalender(events) {
         eventColor: '#378006',
         events: events,
         eventClick: function (calEvent, jsEvent, view) {
-            selectedEvent = calEvent;
+            selectedEvent = calEvent;            
             $('#myModal #eventTitle').text(calEvent.title);
             var $description = $('<div/>');
             $description.append($('<p/>').html('<b>Başlama Tarihi:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
             if (calEvent.end != null) {
                 $description.append($('<p/>').html('<b>Bitiş Tarihi:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
             }
-            $description.append($('<p/>').html('<b>Randevu Açıklama:</b>' + calEvent.description));
-            $description.append($('<p/>').html('<b>Randevu Yeri:</b>' + calEvent.place));
-            $description.append($('<p/>').html('<b>Randevu Ek Bilgi:</b>' + calEvent.ekBilgi));
+            $description.append($('<p/>').html('<b>İçerik:</b>' + calEvent.description));
+            $description.append($('<p/>').html('<b>Yer :</b>' + calEvent.place));
+            $description.append($('<p/>').html('<b>Ek Bilgi:</b>' + calEvent.ekBilgi));
             $description.append($('<p/>').html('<b>Katılımcılar:</b>' + getKisiAd(calEvent.kisiler)));
             $('#myModal #pDetails').empty().html($description);
             $('#myModal').modal();
@@ -119,19 +119,24 @@ function GenerateCalender(events) {
         },
         editable: true,
         eventDrop: function (event) {
-            var data = {
-                planID: event.eventID,
-                planKisaBilgi: event.title,
-                planStartTarih: event.start.format('DD/MM/YYYY HH:mm'),
-                planEndTarih: event.end != null ? event.end.format('DD/MM/YYYY HH:mm') : null,
-                planUzunBilgi: event.description,
-                planColor: event.color,
-                planFullDay: event.allDay,
-                planMekan: event.place,
-                planEkBilgi: event.ekBilgi,
-                planToKisis: event.kisiler
-            };
-            SaveEvent(data);
+            if (confirm("Randevu Tarihi Değiştirilecek! Onaylıyor musunuz ?")) {
+                var data = {
+                    planID: event.eventID,
+                    planKisaBilgi: event.title,
+                    planStartTarih: event.start.format('DD/MM/YYYY HH:mm'),
+                    planEndTarih: event.end != null ? event.end.format('DD/MM/YYYY HH:mm') : null,
+                    planUzunBilgi: event.description,
+                    planColor: event.color,
+                    planFullDay: event.allDay,
+                    planMekan: event.place,
+                    planEkBilgi: event.ekBilgi,
+                    planToKisis: event.kisiler
+                };
+                SaveEvent(data);
+            }
+            else {
+                return;
+            }            
         }
     })
 }
@@ -140,11 +145,11 @@ $('#btnEdit').click(function () {
     openAddEditForm();
 })
 $('#btnDelete').click(function () {
-    if (selectedEvent != null && confirm('Are you sure?')) {
+    if (selectedEvent != null && confirm('Emin misiniz ?')) {
         $.ajax({
             type: "POST",
             url: '/Takvim/DeleteEvent',
-            data: { 'eventID': selectedEvent.eventID },
+            data: { 'id': selectedEvent.eventID },
             success: function (data) {
                 if (data.status) {
                     //Refresh the calender
@@ -153,7 +158,7 @@ $('#btnDelete').click(function () {
                 }
             },
             error: function () {
-                alert('Failed');
+                alert('Silme İşlemi Başarıyla Sonuçlandırılamadı!');
             }
         })
     }
@@ -161,22 +166,22 @@ $('#btnDelete').click(function () {
 $('#btnSave').click(function () {
     //Validation/
     if ($('#txtSubject').val().trim() == "") {
-        alert('Subject required');
+        alert('Başlık giriniz.');
         return;
     }
     if ($('#txtStart').val().trim() == "") {
-        alert('Start date required');
+        alert('Başlangıç tarihi giriniz.');
         return;
     }
     if ($('#chkIsFullDay').is(':checked') == false && $('#txtEnd').val().trim() == "") {
-        alert('End date required');
+        alert('Bitiş tarihi giriniz.');
         return;
     }
     else {
         var startDate = moment($('#txtStart').val(), "DD.MM.YYYY HH:mm").toDate();
         var endDate = moment($('#txtEnd').val(), "DD.MM.YYYY HH:mm").toDate();
         if (startDate > endDate) {
-            alert('Invalid end date');
+            alert('Bitiş tarihi başlangıç tarihinden küçük olamaz!');
             return;
         }
     }    
@@ -188,14 +193,16 @@ $('#btnSave').click(function () {
         pkisSource: true
     });
     if ($('#multi-select').val() != null) {
-        alert($('#multi-select').val());       
-        $.each($('#multi-select').val(), function (i, v) {
-            ptkisiler.push({
-                pkID: 0,
-                pkKisiID: v,
-                pkPlanID: $('#hdEventID').val(),
-                pkisSource: false
-            })
+        $.each($('#multi-select').val(), function (i, v) {            
+            if (v!=ptkisiler[0].pkKisiID) {
+                ptkisiler.push({
+                    pkID: 0,
+                    pkKisiID: v,
+                    pkPlanID: $('#hdEventID').val(),
+                    pkisSource: false
+                })
+            }
+            
         });        
     }
     var data = {
@@ -226,7 +233,7 @@ function SaveEvent(data) {
             }
         },
         error: function () {
-            alert('Failed');
+            alert('Düzgün değerler girilmedi ve Kayıt işlemi başarıyla sonuçlandırılamadı!');
         }
     })
 }
