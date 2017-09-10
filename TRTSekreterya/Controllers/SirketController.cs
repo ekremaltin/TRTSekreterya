@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TRTSekreterya.Models;
+using System.Linq.Dynamic;
 
 namespace TRTSekreterya.Controllers
 {
@@ -15,14 +16,36 @@ namespace TRTSekreterya.Controllers
         private RandevuEntities db = new RandevuEntities();
 
         // GET: Sirket
-        public ActionResult Liste()
+        public ActionResult Liste(int page = 1, string sort = "sirketAdi", string sortdir = "asc", string search = "")
         {
             if (Session["id"] != null)
             {
-                var sirkets = db.sirkets;
-                return View(sirkets.ToList());
+                int pageSize = 10;
+                int totalRecord = 0;
+                if (page < 1) page = 1;
+                int skip = (page * pageSize) - pageSize;
+                var data = GetSirketList(search, sort, sortdir, skip, pageSize, out totalRecord);
+                ViewBag.TotalRows = totalRecord;
+                ViewBag.search = search;
+                return View(data);
             }
             return RedirectToAction("Login", "users");
+        }
+        public List<sirket> GetSirketList(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        {
+            var v = (from a in db.sirkets
+                     where                             
+                             a.sirketAdi.Contains(search) ||
+                             a.sirketSektor.Contains(search) 
+                     select a);
+            v = v.OrderBy(sort + " " + sortdir);
+            totalRecord = v.Count();
+            v = v.OrderBy(sort + " " + sortdir);
+            if (pageSize > 0)
+            {
+                v = v.Skip(skip).Take(pageSize);
+            }
+            return v.ToList();
         }
 
         // GET: Sirket/Details/5
@@ -151,7 +174,7 @@ namespace TRTSekreterya.Controllers
                 adre adres = db.adres.Where(m => m.adresID == sirket.sirketAdresID).FirstOrDefault();
                 List<iletisimToSirket> iletisimler = db.iletisimToSirkets.Where(m => m.sirketID == id).ToList();
 
-                if (sirket == null || adres == null || iletisimler == null)
+                if (sirket == null)
                 {
                     return HttpNotFound();
                 }
@@ -159,7 +182,10 @@ namespace TRTSekreterya.Controllers
                 {
                     db.iletisimToSirkets.Remove(iletisimler[i]);
                 }
-                db.adres.Remove(adres);
+                if (adres !=null)
+                {
+                    db.adres.Remove(adres);
+                }
                 db.sirkets.Remove(sirket);
                 db.SaveChanges();
                 return RedirectToAction("Liste");
