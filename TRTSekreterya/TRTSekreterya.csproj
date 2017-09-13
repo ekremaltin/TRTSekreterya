@@ -137,6 +137,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KisiController.cs" />
+    <Compile Include="Controllers\kisisController.cs" />
     <Compile Include="Controllers\SirketController.cs" />
     <Compile Include="Controllers\TakvimController.cs" />
     <Compile Include="Controllers\usersController.cs" />
@@ -276,6 +277,11 @@
     <Content Include="Views\users\Login.cshtml" />
     <Content Include="Views\Takvim\Takvim.cshtml" />
     <Content Include="Scripts\myJS\momentt.min.js" />
+    <Content Include="Views\kisis\Create.cshtml" />
+    <Content Include="Views\kisis\Delete.cshtml" />
+    <Content Include="Views\kisis\Details.cshtml" />
+    <Content Include="Views\kisis\Edit.cshtml" />
+    <Content Include="Views\kisis\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

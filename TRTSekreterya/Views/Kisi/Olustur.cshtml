@@ -1,17 +1,19 @@
 ﻿@using TRTSekreterya.Models
+@model kisi
+
 @{
     ViewBag.Title = "Olustur";
-    List<sirket> s = ViewBag.sirketler;
-    List<birim> b = ViewBag.birimler;
-    List<iletisim> i = ViewBag.iletisimTipler;
+    var ulkes = ViewBag.adresUlkeID;
 }
 
 
 <h2>Olustur</h2>
 
-@*<form method="post" action="/Kisi/Olustur">*@
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="hidden" name="kisiID" value="0" />
     <div class="form-horizontal">
         <div class="form-group">
             <label class="col-md-2"> Ad : </label>
@@ -30,29 +32,23 @@
             <input type="text" name="kisiUnvan" />
         </div>
         <div class="form-group">
-            <label class="col-md-2"> Şirket : </label>
-            <select name="kisiSirketID">
-                <option selected value="0">ŞİRKET SEÇİNİZ</option>
-                @foreach (var item in s)
-                {
-                    <option value="@item.sirketID">@item.sirketAdi</option>
-                }
-            </select>
+            @Html.LabelFor(model => model.kisiSirketID, "Şirket", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="kisiSirketID" id="kisiSirketID"></select>
+                @Html.ValidationMessageFor(model => model.kisiSirketID, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2"> Birim : </label>
-            <select name="kisiBirimID">
-                <option selected value="0">BİRİM SEÇİNİZ</option>
-                @foreach (var item in b)
-                {
-                    <option value="@item.birimID">@item.birimAdi</option>
-                }
-            </select>
+            @Html.LabelFor(model => model.birimID, "Birim", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="birimID" id="birimID"></select>
+                @Html.ValidationMessageFor(model => model.birimID, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2"> Yönetici mi? : </label>
-            <input type="radio" name="kisiYonetici" value=true /> Evet
-            <input type="radio" name="kisiYonetici" value=false checked /> Hayır
+            <label class="col-md-2"> Takvim Kilit : </label>
+            <input type="radio" name="kisiTakvimKilit" value=true /> Evet
+            <input type="radio" name="kisiTakvimKilit" value=false checked /> Hayır
         </div>
         <div class="form-group">
             <label class="col-md-2"> Ek Bilgi : </label>
@@ -115,12 +111,7 @@
         <address id="adres">
             <div id="ulke" class="form-group">
                 <label>Ülke :</label>
-                <select name="adres[0].adresUlkeID" id="adresUlkeID">
-                    <option>Ulke Seçiniz</option>
-                    @foreach (var item in ViewBag.adresUlkeID)
-                    {
-                        <option value=@item.Value>@item.Text</option>
-                    }
+                <select name="adres[0].adresUlkeID" id="adresUlkeID">                  
                 </select>
 
             </div>
@@ -150,53 +141,66 @@
                 </select>
             </div>
             <button id="ekleAdres" name="adr" type="button">2. Adres</button>
-        </address>
-        @*2. Adres*@
-        <address id="adres2" name="adre" style="display:none">
-            <div id="ulke" class="form-group">
-                <label>Ülke :</label>
-                <select name="adres[1].adresUlkeID" id="adresUlkeID2">
-                    <option>Ulke Seçiniz</option>
-                    @foreach (var item in ViewBag.adresUlkeID)
-                    {
-                        <option value=@item.Value>@item.Text</option>
-                    }
-                </select>
-            </div>
-            <div id="sehir" class="form-group">
-                <label>İl :</label>
-                <select id="adresILID2" name="adres[1].adresILID" class="form-control">
-                    <option selected>İl Seçiniz:</option>
-                </select>
-            </div>
-            <div id="ilce">
-                <label>İlçe :</label>
-                <input type="text" name="adres[1].adresIlce" />
-            </div>
-            <div id="postakodu">
-                <label>Posta Kodu :</label>
-                <input type="text" name="adres[1].adresPostaKodu" />
-            </div>
-            <div id="adresgenis">
-                <label>Adres Kodu :</label>
-                <input type="text" name="adres[1].adresAdres" />
-            </div>
-            <div id="adresTip">
-                <select name="adres[1].adresTip">
-                    <option value="İkamet">İkamet Adresi</option>
-                    <option value="İletişim">İletişim Adresi</option>
-                    <option value="İş">İş Adresi</option>
-                </select>
-            </div>
-        </address>
+        </address>       
 
     </div>
-    <input type="submit" id="btn" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Kaydet" class="btn btn-default" />
+        </div>
+    </div>
+
 }
-@section scripts
-{
-<script src="~/Scripts/myJS/dinamikFormK.js"></script>
-<script src="~/Scripts/myJS/cascadingUS.js"></script>
-<script src="~/Scripts/myJS/dinamikA.js"></script>   
+<div>
+    @Html.ActionLink("Back to List", "Liste")
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/myJS/dinamikFormK.js"></script>
+    <script src="~/Scripts/myJS/cascadingUS.js"></script>
+    <script src="~/Scripts/myJS/dinamikA.js"></script>
+    <script>
+        $(document).ready(function () {
+            var sirketList = $('#kisiSirketID');
+            sirketList.empty();
+            $.ajax({
+                type: 'GET',
+                url: '/Kisi/getSirket',
+                datatype: 'json',
+                success: function (data) {
+                    $.each(data, function (index, option) {
+                        sirketList.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                    });
+                }
+            })
+        });
+        var birimList = $('#birimID');
+        birimList.empty();
+        $.ajax({
+            type: 'GET',
+            url: '/Kisi/getBirim',
+            datatype: 'json',
+            success: function (data) {
+                $.each(data, function (index, option) {
+                    birimList.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                });
+            }
+        })
+        var ulkeList = $('#adresUlkeID');       
+        ulkeList.empty();        
+        $.ajax({
+            type: 'GET',
+            url: '/Kisi/getUlke',
+            datatype: 'json',
+            success: function (data) {
+                $.each(data, function (index, option) {
+                    ulkeList.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                    
+                });
+            }
+        })
+
+    </script>
 }
 

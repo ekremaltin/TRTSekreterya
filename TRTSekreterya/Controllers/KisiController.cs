@@ -48,6 +48,22 @@ namespace TRTSekreterya.Controllers
             }            
             return v.ToList();
         }
+        public JsonResult getSirket()
+        {
+            var liste = new SelectList(db.sirkets, "sirketID", "sirketAdi");
+            return new JsonResult { Data = liste, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        public JsonResult getBirim()
+        {
+            var liste = new SelectList(db.birims, "birimID", "birimAdi");
+            return new JsonResult { Data = liste, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        public JsonResult getUlke()
+        {
+            var liste = new SelectList(db.ulkes, "ulkeID", "ulkeAdi");
+            return new JsonResult { Data = liste, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
 
         public JsonResult getKisiler()
         {
@@ -61,7 +77,7 @@ namespace TRTSekreterya.Controllers
             return new JsonResult { Data = new { liste = liste, trueList = trueList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
         public JsonResult ChangeTakvimKey(int[] ids)
-        {
+        {            
             List<int> diziList = ids.ToList();
             var status = false;
             using (RandevuEntities db = new RandevuEntities())
@@ -109,20 +125,6 @@ namespace TRTSekreterya.Controllers
             return RedirectToAction("Login", "users");
         }
 
-        // GET: Kisi/Create
-        public ActionResult Olustur()
-        {
-            if (Session["yetki"] != null && (Session["yetki"].ToString() == "3" || Session["yetki"].ToString() == "4"))
-            {
-                ViewBag.sirketler = db.sirkets.ToList();
-                ViewBag.birimler = db.birims.ToList();
-                ViewBag.iletisimTipler = db.iletisims.ToList();
-                ViewBag.adresUlkeID = new SelectList(db.ulkes, "ulkeID", "ulkeAdi");
-                return View();
-            }
-            return RedirectToAction("Login", "users");
-        }
-
         public JsonResult ilList(int id)
         {
             List<sehir> s = db.sehirs.Where(m => m.sehirUlkeID == id).OrderBy(m => m.sehirAdi).ToList();
@@ -130,18 +132,34 @@ namespace TRTSekreterya.Controllers
             return Json(secimList, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Kisi/Create
+        public ActionResult Olustur()
+        {
+            if (Session["yetki"] != null && (Session["yetki"].ToString() == "3" || Session["yetki"].ToString() == "4"))
+            {
+                ViewBag.sirketlervb = db.sirkets.ToList();
+                ViewBag.birimlervb = new SelectList(db.birims, "birimID", "birimAdi");
+                ViewBag.adresUlkeID = new SelectList(db.ulkes, "ulkeID", "ulkeAdi");
+                return View();
+            }
+            return RedirectToAction("Login", "users");
+        }
+
+
         // POST: Kisi/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Olustur(kisi kisi)
         {
             if (Session["yetki"] != null && (Session["yetki"].ToString() == "3" || Session["yetki"].ToString() == "4"))
             {
-                kisi k = new kisi();
+             
                 try
                 {
-                    // TODO: Add insert logic here  
+                    
                     if (kisi != null)
                     {
+                        
                         db.kisis.Add(kisi);
                         db.SaveChanges();
                     }
@@ -167,16 +185,16 @@ namespace TRTSekreterya.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
                 kisi kisi = db.kisis.Find(id);
-                if (kisi == null)
+                if (kisi == null || kisi.iletisimToKisis.Count()==0 || kisi.adres.Count()==0)
                 {
                     return HttpNotFound();
                 }
                 List<iletisimToKisi> kisiİletisim = db.iletisimToKisis.Where(m => m.kisiID == id).ToList();
                 List<adre> kisiAdres = db.adres.Where(n => n.adresKisiID == id).ToList();
-                ViewBag.sirketler = new SelectList(db.sirkets, "sirketID", "sirketAdi", kisi.kisiSirketID);
-                ViewBag.birimler = new SelectList(db.birims, "birimID", "birimAdi", kisi.birimID);
-                ViewBag.adresUlkeID = new SelectList(db.ulkes, "ulkeID", "ulkeAdi", kisi.adres.FirstOrDefault().adresUlkeID);
-                ViewBag.sehirler = new SelectList(db.sehirs, "sehirID", "sehirAdi", kisi.adres.FirstOrDefault().adresUlkeID);
+                ViewBag.sirketler = new SelectList(db.sirkets, "sirketID", "sirketAdi");
+                ViewBag.birimler = new SelectList(db.birims, "birimID", "birimAdi");
+                ViewBag.adresUlkeID = new SelectList(db.ulkes, "ulkeID", "ulkeAdi");
+                ViewBag.sehirler = new SelectList(db.sehirs, "sehirID", "sehirAdi");
                 return View(kisi);
             }
             return RedirectToAction("Login", "users");
@@ -230,6 +248,7 @@ namespace TRTSekreterya.Controllers
                 kisi kisi = db.kisis.Find(id);
                 List<adre> adresler = db.adres.Where(m => m.adresKisiID == id).ToList();
                 List<iletisimToKisi> iletisimler = db.iletisimToKisis.Where(m => m.kisiID == id).ToList();
+                List<planToKisi> ptks = db.planToKisis.Where(m => m.pkKisiID == id).ToList();
                 if (kisi == null)
                 {
                     return HttpNotFound();
@@ -241,6 +260,10 @@ namespace TRTSekreterya.Controllers
                 for (int i = 0; i < iletisimler.Count(); i++)
                 {
                     db.iletisimToKisis.Remove(iletisimler[i]);
+                }
+                for (int i = 0; i < ptks.Count(); i++)
+                {
+                    db.planToKisis.Remove(ptks[i]);
                 }
                 db.kisis.Remove(kisi);
                 db.SaveChanges();

@@ -7,36 +7,34 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TRTSekreterya.Models
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using TRTSekreterya.Models;
+
+public partial class RandevuEntities : DbContext
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
-    public partial class RandevuEntities : DbContext
+    public RandevuEntities()
+        : base("name=RandevuEntities")
     {
-        public RandevuEntities()
-            : base("name=RandevuEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<adre> adres { get; set; }
-        public virtual DbSet<birim> birims { get; set; }
-        public virtual DbSet<iletisim> iletisims { get; set; }
-        public virtual DbSet<iletisimToKisi> iletisimToKisis { get; set; }
-        public virtual DbSet<iletisimToSirket> iletisimToSirkets { get; set; }
-        public virtual DbSet<kisi> kisis { get; set; }
-        public virtual DbSet<plan> plans { get; set; }
-        public virtual DbSet<planToKisi> planToKisis { get; set; }
-        public virtual DbSet<sehir> sehirs { get; set; }
-        public virtual DbSet<sirket> sirkets { get; set; }
-        public virtual DbSet<ulke> ulkes { get; set; }
-        public virtual DbSet<user> users { get; set; }
-        public virtual DbSet<yetkiLogin> yetkiLogins { get; set; }
     }
+
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        throw new UnintentionalCodeFirstException();
+    }
+
+    public virtual DbSet<adre> adres { get; set; }
+    public virtual DbSet<birim> birims { get; set; }
+    public virtual DbSet<iletisim> iletisims { get; set; }
+    public virtual DbSet<iletisimToKisi> iletisimToKisis { get; set; }
+    public virtual DbSet<iletisimToSirket> iletisimToSirkets { get; set; }
+    public virtual DbSet<kisi> kisis { get; set; }
+    public virtual DbSet<plan> plans { get; set; }
+    public virtual DbSet<planToKisi> planToKisis { get; set; }
+    public virtual DbSet<sehir> sehirs { get; set; }
+    public virtual DbSet<sirket> sirkets { get; set; }
+    public virtual DbSet<ulke> ulkes { get; set; }
+    public virtual DbSet<user> users { get; set; }
+    public virtual DbSet<yetkiLogin> yetkiLogins { get; set; }
 }

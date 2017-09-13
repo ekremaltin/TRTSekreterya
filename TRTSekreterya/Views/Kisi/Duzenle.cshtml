@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = "Duzenle";
+    var birimler = ViewBag.birimler;
+    var sirketler = ViewBag.sirketler;
 
 }
 
@@ -22,7 +24,6 @@
             <div class="form-group">
                 <label>Ad:</label>
                 <input type="text" name="kisiAdi" value="@Model.kisiAdi" />
-                <input type="text" />
             </div>
         </div>
         <div class="form-horizontal">
@@ -45,28 +46,22 @@
         </div>
         <div class="form-horizontal">
             <div class="form-group">
-                <label>Tarih:</label>
-                <input type="date" name="kisiKayitTarihi" value="@Model.kisiKayitTarihi" />
-            </div>
-        </div>
-        <div class="form-horizontal">
-            <div class="form-group">
                 <label>Ek Bilgi:</label>
                 <input type="text" name="kisiEkBilgi" value="@Model.kisiEkBilgi" />
             </div>
         </div>
         <div class="form-horizontal">
             <div class="form-group">
-                <label>Ad:</label>
-                @if (Model.kisiYonetici == true)
+                <label>Takvim Kilidi:</label>
+                @if (Model.kisiTakvimKilit == true)
                 {
-                    <input type="radio" name="kisiYonetici" value=true checked /> <span>Evet</span>
-                    <input type="radio" name="kisiYonetici" value=false />  <span>Hayır</span>
+                    <input type="radio" name="kisiTakvimKilit" value=true checked /> <span>Evet</span>
+                    <input type="radio" name="kisiTakvimKilit" value=false />  <span>Hayır</span>
                 }
                 else
                 {
-                    <input type="radio" name="kisiYonetici" value=true /> <span>Evet</span>
-                    <input type="radio" name="kisiYonetici" value=false checked />  <span>Hayır</span>
+                    <input type="radio" name="kisiTakvimKilit" value=true /> <span>Evet</span>
+                    <input type="radio" name="kisiTakvimKilit" value=false checked />  <span>Hayır</span>
                 }
 
             </div>
@@ -74,28 +69,25 @@
         <div class="form-group">
             <label class="col-md-2"> Şirket : </label>
             <select name="kisiSirketID">
-                <option value="0">ŞİRKET SEÇİNİZ</option>
-                <option value="@Model.kisiSirketID" selected>@Model.sirket.sirketAdi</option>
-                @foreach (var item in ViewBag.sirketler)
+                <option>ŞİRKET SEÇİNİZ</option>
+                @foreach (var item in sirketler)
                 {
-                    <option value="@item.Value">@item.Text</option>
+                    <option value="@item.Value" @if (Model.sirket != null && Model.kisiSirketID == int.Parse(item.Value)) { <text> selected </text>  }>@item.Text</option>
                 }
             </select>
         </div>
-        @if (Model.birim != null)
-        {
-            <div class="form-group">
-                <label class="col-md-2"> Birim : </label>
-                <select name="kisiBirimID">
-                    <option value="0">BİRİM SEÇİNİZ</option>
-                    <option value="@Model.birimID" selected>@Model.birim.birimAdi</option>
-                    @foreach (var item in ViewBag.birimler)
-                    {
-                        <option value="@item.Value">@item.Text</option>
-                    }
-                </select>
-            </div>
-        }
+
+        <div class="form-group">
+            <label class="col-md-2"> Birim : </label>
+            <select name="BirimID">
+                <option>BİRİM SEÇİNİZ</option>
+                @foreach (var item in birimler)
+                {
+                    <option value="@item.Value" @if (Model.birimID != null && Model.birimID == int.Parse(item.Value)) { <text> selected </text>  }>@item.Text</option>
+                }
+            </select>
+        </div>
+
 
         <div id="adresler" name="adre" class="form-horizontal">
             <address id="adres">
@@ -106,7 +98,7 @@
                         <option>Ülke Seçiniz</option>
                         @foreach (var item in ViewBag.adresUlkeID)
                         {
-                            <option value="@item.Value" @if (int.Parse(item.Value) == Model.adres.ToList()[0].adresUlkeID) { <text> selected </text>        }>@item.Text</option>
+                            <option value="@item.Value" @if (Model.adres.ToList()[0].adresUlkeID != null && int.Parse(item.Value) == Model.adres.ToList()[0].adresUlkeID) { <text> selected </text>   }>@item.Text</option>
                         }
                     </select>
 
@@ -119,7 +111,7 @@
                         {
                             foreach (var item in ViewBag.sehirler)
                             {
-                                <option value="@item.Value" @if (int.Parse(item.Value) == Model.adres.ToList()[0].adresILID) { <text> selected </text>          }>@item.Text</option>
+                                <option value="@item.Value" @if (Model.adres.ToList()[0].adresILID != null && int.Parse(item.Value) == Model.adres.ToList()[0].adresILID) { <text> selected </text>   }>@item.Text</option>
                             }
                         }
                     </select>
@@ -138,63 +130,13 @@
                 </div>
                 <div id="adresTip">
                     <select name="adres[0].adresTip">
-                        <option value="İkamet" @if (Model.adres.ToList()[0].adresTip == "İkamet") { <text> selected </text>    }>İkamet Adresi</option>
-                        <option value="İletişim" @if (Model.adres.ToList()[0].adresTip == "İletişim") { <text> selected </text>    }>İletişim Adresi</option>
-                        <option value="İş" @if (Model.adres.ToList()[0].adresTip == "İş") { <text> selected </text>    }>İş Adresi</option>
+                        <option value="İkamet" @if (Model.adres.ToList()[0].adresTip == "İkamet") { <text> selected </text>      }>İkamet Adresi</option>
+                        <option value="İletişim" @if (Model.adres.ToList()[0].adresTip == "İletişim") { <text> selected </text>      }>İletişim Adresi</option>
+                        <option value="İş" @if (Model.adres.ToList()[0].adresTip == "İş") { <text> selected </text>      }>İş Adresi</option>
                     </select>
                 </div>
-            </address>
-            @*2. Adres*@
-            @if (Model.adres.ToList()[1] != null && Model.adres.ToList()[1].ulke != null)
-            {
-                <address id="adres2" name="adre">
-                    <input type="hidden" name="adres[1].adresID" value="@Model.adres.ToList()[1].adresID" />
-                    <div id="ulke" class="form-group">
-                        <label>Ülke :</label>
-                        <select name="adres[1].adresUlkeID" id="adresUlkeID2">
-                            <option>Ulke Seçiniz</option>
-                            @foreach (var item in ViewBag.adresUlkeID)
-                            {
-                                <option value="@item.Value" @if (int.Parse(item.Value) == Model.adres.ToList()[1].adresUlkeID) { <text> selected </text>        }> @item.Text</option>
-                            }
-                        </select>
-                    </div>
-                    <div id="sehir" class="form-group">
-                        <label>İl :</label>
-                        <select id="adresILID2" name="adres[1].adresILID" class="form-control">
-                            <option selected>İl Seçiniz:</option>
-                            @if (Model.adres.ToList()[1].adresUlkeID == 212)
-                            {
-                                foreach (var item in ViewBag.sehirler)
-                                {
-                                    <option value="@item.Value" @if (int.Parse(item.Value) == Model.adres.ToList()[1].adresILID) { <text> selected </text>          }>@item.Text</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div id="ilce">
-                        <label>İlçe :</label>
-                        <input type="text" name="adres[1].adresIlce" value="@Model.adres.ToList()[1].adresIlce" />
-                    </div>
-                    <div id="postakodu">
-                        <label>Posta Kodu :</label>
-                        <input type="text" name="adres[1].adresPostaKodu" value="@Model.adres.ToList()[1].adresPostaKodu" />
-                    </div>
-                    <div id="adresgenis">
-                        <label>Adres :</label>
-                        <input type="text" name="adres[1].adresAdres" value="@Model.adres.ToList()[1].adresAdres" />
-                    </div>
-                    <div id="adresTip">
-                        <select name="adres[1].adresTip">
-                            <option value="İkamet" @if (Model.adres.ToList()[1].adresTip == "İkamet") { <text> selected </text>   }>İkamet Adresi</option>
-                            <option value="İletişim" @if (Model.adres.ToList()[1].adresTip == "İletişim") { <text> selected </text>   }>İletişim Adresi</option>
-                            <option value="İş" @if (Model.adres.ToList()[1].adresTip == "İş") { <text> selected </text>   }>İş Adresi</option>
-                        </select>
-                    </div>
-                    @*<a href="" id="@Model.adres.ToList()[1].adresID" onclick="deleteData();" class="glyphicon glyphicon-remove">Adresi Sil</a>*@
-                </address>
+            </address>           
 
-            }
 
         </div>
         @for (int i = 0; i < Model.iletisimToKisis.Count(); i++)
@@ -283,6 +225,6 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script src="~/Scripts/myJS/cascadingUS.js"></script>
+    <script src="~/Scripts/myJS/cascadingUS.js"></script>
 }
 
