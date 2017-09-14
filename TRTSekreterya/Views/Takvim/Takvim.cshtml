@@ -15,27 +15,49 @@
 <h2>Takvim</h2>
 <button id="add_tab">Takvim Kişileri</button>
 <div id="tabs">
-    <ul>       
+    <ul>
         @for (int i = 0; i < dng; i++)
         {
             <li id="sb@(i+1)"><a href="#tabs-@(i+1)"><span id="@yntmListe[i].kisiID">@yntmListe[i].kisiAdi</span></a></li>
-        }   
-    </ul>   
-   @for (int idx = 0; idx < dng; idx++)
-   {
-    <div id="tabs-@(idx+1)">
-        <p><div id="calendar@(idx+1)"></div></p>
-    </div>
-   }
+        }
+    </ul>
+    @for (int idx = 0; idx < dng; idx++)
+    {
+        <div id="tabs-@(idx+1)">
+            <p><div id="calendar@(idx+1)"></div></p>
+        </div>
+    }
 </div>
-<div id="dialog" title="Tab data">
-    <form>
-        <fieldset class="">
-            <label for="tableKeySelect">Kişiler İçin Takvim Güncelleme</label>
-            <select id="tabKeySelect" multiple="multiple"></select>
-        </fieldset>
-    </form>
-</div> @*YENİ SEKME POP-UP*@
+<div id="dialog" title="Takvim Ayarları">
+    <div class="form-group">
+        <form>
+            <select id="tabKeySelect" multiple="multiple" class="form-control"></select>
+
+        </form>
+
+    </div>
+</div>
+<div id="myModaltab" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-12 form-horizontal">
+                    <div class="form-group">
+                        <label>Plan Kişileri</label><br />
+                        <select id="tabKeySelect" multiple="multiple"></select>
+                    </div>
+                    <button type="button" id="btnSaveTab" class="btn btn-success">Kaydet</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                </form>
+            </div>            
+        </div>
+    </div>
+</div>
+@*YENİ SEKME POP-UP*@
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -136,9 +158,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <script src="~/Scripts/myJS/trCalendar.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
-<script src="~/Scripts/myJS/multiList.js"></script> 
-    <script src="~/Scripts/myJS/calendar.js"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+    <script src="~/Scripts/myJS/multiList.js"></script>
+    <script src="~/Scripts/myJS/calendar.js"></script>
 
 
 

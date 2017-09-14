@@ -7,38 +7,37 @@
     grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
 
-<h2>Kayıtlı Kişiler</h2>
-<div><a href="/Kisi/Olustur" class="glyphicon glyphicon-plus">Yeni Kişi Oluştur</a> </div>
+<h2>Kişiler</h2>
+<a href="/Kisi/Olustur" class="glyphicon glyphicon-plus">Yeni Kişi Oluştur</a><br />
 
 <div class="container">
-    <h2>Kişi List</h2>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="#" class="navbar-brand">Search</a>
+                <a href="/Kisi/Liste" class="navbar-brand">Arama</a>
             </div>
             <div class="collapse navbar-collapse">
                 @using (Html.BeginForm("Liste", "Kisi", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
                 {
                     <div class="form-group">
-                        <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="search" />
+                        <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="Aranacak kelime" />
                     </div>
-                        <button type="submit" value="Search" class="btn btn-success">Search</button>
+                        <button type="submit" value="Ara" class="btn btn-success">Ara</button>
                 }
-            </div>
+            </div>            
         </div>
     </nav>
     <div>
         @grid.Table(
-                tableStyle: "table table-responsive table-bordered",
-                columns: grid.Columns(
-                    grid.Column(columnName: "kisiAdi", header: "Ad"),
-                    grid.Column(columnName: "kisiSoyadi", header: "Soyad"),
-                    grid.Column(columnName: "kisiUnvan", header: "Ünvan"),
-                    grid.Column(columnName: "kisiMeslek", header: "Meslek"),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDetail' value='Detay' onclick=\"getDetail('" + item.kisiID + "')\" />")),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnEdit' value='Düzenle' onclick=\"getEdit('" + item.kisiID + "')\" />")),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDelete' value='Sil' onclick=\"getDelete('" + item.kisiID + "')\" />"))
+             tableStyle: "table table-responsive table-bordered",
+             columns: grid.Columns(
+                 grid.Column(columnName: "kisiAdi", header: "Ad"),
+                 grid.Column(columnName: "kisiSoyadi", header: "Soyad"),
+                 grid.Column(columnName: "kisiUnvan", header: "Ünvan"),
+                 grid.Column(columnName: "kisiMeslek", header: "Meslek"),
+                 grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDetail' value='Detay' onclick=\"getDetail('" + item.kisiID + "')\" />"), style: "details" ),
+                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnEdit' value='Düzenle' onclick=\"getEdit('" + item.kisiID + "')\" />"), style: "edit"),
+                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDelete' value='Sil' onclick=\"getDelete('" + item.kisiID + "')\" />"), style: "delete")
                 )
             )
 
@@ -53,26 +52,7 @@
 
     </div>
 </div>
-
-@*<div class="row">
-    <div class="col-md-2">Ad</div>
-    <div class="col-md-2">Soyad</div>
-    <div class="col-md-2">Ünvan</div>
-    <div class="col-md-2">Meslek</div>
-</div>
-@foreach (var item in Model)
-{
-    <div class="row">
-        <div class="col-md-2">@item.kisiAdi</div>
-        <div class="col-md-2">@item.kisiSoyadi</div>
-        <div class="col-md-2">@item.kisiUnvan</div>
-        <div class="col-md-2">@item.kisiMeslek</div>
-        <a href="/Kisi/Detay/@item.kisiID" class="glyphicon glyphicon-list-alt">Detay</a>&nbsp;
-        <a href="/Kisi/Duzenle/@item.kisiID" class="glyphicon glyphicon-pencil">Düzenle</a>&nbsp;
-        <a id="silKontrol" href="/Kisi/SilIslem/@item.kisiID" onclick='return confirm("Emin misiniz");' class="glyphicon glyphicon-remove">Sil</a>
-    </div>
-}*@
-
+<link href="~/Content/MyCss/gridCss.css" rel="stylesheet" />
 @section scripts{
     <script>
     $(function () {

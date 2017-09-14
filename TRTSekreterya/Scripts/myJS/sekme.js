@@ -6,6 +6,9 @@
     var dialog = $("#dialog").dialog({
         autoOpen: false,
         modal: true,
+        height: 700 ,
+        width: 500,
+        resizable: false,
         buttons: {
             Ekle: function () {
                 addTab();
@@ -17,14 +20,31 @@
         },
         close: function () {
             form[0].reset();
+        },
+
+        show: {
+            effect: "blind",
+            duration: 1000
+        },
+        hide: {
+            effect: "explode",
+            duration: 1000
         }
+
     });
+
+
 
     // AddTab form: calls addTab function on submit and closes the dialog
     var form = dialog.find("form").on("submit", function (event) {
         addTab();
         dialog.dialog("close");
         event.preventDefault();
+    });
+
+    $('#btnSaveTab').button().on("click", function () {
+        addTab();
+        $('#myModaltab').modal('hide');
     });
 
     // Actual addTab function: adds new tab using the input from the form above
@@ -49,7 +69,17 @@
     $("#add_tab")
       .button()
       .on("click", function () {
-          dialog.dialog("open");
+          $('#myModaltab').modal({
+              show: {
+                  effect: "blind",
+                  duration: 1000
+              },
+              hide: {
+                  effect: "explode",
+                  duration: 1000
+              }
+          });
+          //dialog.dialog("open");
       });
 
     // Close icon: removing the tab on click

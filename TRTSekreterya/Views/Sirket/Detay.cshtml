@@ -9,7 +9,65 @@
 <div>
     <h4>@Model.sirketAdi Detaylı Bilgi</h4>
     <hr />
-    <dl class="dl-horizontal">
+
+    <table class="table table-user-information">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Bilgiler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ad</td>
+                <td>@Model.sirketAdi</td>
+            </tr>
+            <tr>
+                <td>Soyad</td>
+                <td>@Model.sirketSektor</td>
+            </tr>
+            <tr>
+                <td>Meslek</td>
+                <td>@Model.sirketSorumluAdiSoyadi</td>
+            </tr>
+            <tr>
+                <td>Ünvan</td>
+                <td>@Model.sirketSorumluTel</td>
+            </tr>
+            <tr>
+                <td>Şirket</td>
+                <td>@Model.adre.ulke.ulkeAdi</td>
+            </tr>
+            <tr>
+                <td>Birim</td>
+                <td>@if (@Model.adre.sehir != null)
+                {@Model.adre.sehir.sehirAdi }
+                else { <span>-</span> }</td>
+            </tr>
+
+            <tr>
+                <td>İlçe</td>
+                <td>@Model.adre.adresIlce</td>
+            </tr>
+            <tr>
+                <td>Posta Kodu</td>
+                <td>@Model.adre.adresPostaKodu</td>
+            </tr>
+
+            @foreach (var item in Model.iletisimToSirkets)
+            {
+                <tr>
+                    <td>@item.iletisim.iletisimTip</td>
+                    <td>@item.value</td>
+                </tr>
+            } 
+
+            
+        </tbody>
+    </table>
+
+    <link href="~/Content/MyCss/table.css" rel="stylesheet" />
+    @*<dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.sirketAdi)
         </dt>
@@ -41,7 +99,7 @@
         <dd>
             @Html.DisplayFor(model => model.sirketSorumluTel)
         </dd>
-        @*EKLENENLER ADRES *@
+        EKLENENLER ADRES 
         <dt>
             ülke
         </dt>
@@ -77,7 +135,7 @@
         <dd>
             @Html.DisplayFor(model => model.adre.adresPostaKodu)
         </dd>
-        @*EKLENENLER ADRES *@
+        EKLENENLER ADRES 
 
         @foreach (var item in Model.iletisimToSirkets)
         {
@@ -90,7 +148,7 @@
         }
 
 
-    </dl>
+    </dl>*@
 </div>
 <p>
     @Html.ActionLink("Duzenle", "Duzenle", new { id = Model.sirketID }) |

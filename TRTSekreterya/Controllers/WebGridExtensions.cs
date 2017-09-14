@@ -53,7 +53,7 @@ public static class WebGridExtensions
         {
             if(String.IsNullOrEmpty(firstText))
             {
-                firstText = "First";
+                firstText = "İlk";
             }
 
             var part = new TagBuilder("li")
@@ -74,7 +74,7 @@ public static class WebGridExtensions
         {
             if(String.IsNullOrEmpty(previousText))
             {
-                previousText = "Prev";
+                previousText = "Önceki";
             }
 
             int page = currentPage == 0 ? 0 : currentPage - 1;
@@ -131,7 +131,7 @@ public static class WebGridExtensions
         {
             if(String.IsNullOrEmpty(nextText))
             {
-                nextText = "Next";
+                nextText = "Sonraki";
             }
 
             int page = currentPage == lastPage ? lastPage : currentPage + 1;
@@ -154,7 +154,7 @@ public static class WebGridExtensions
         {
             if(String.IsNullOrEmpty(lastText))
             {
-                lastText = "Last";
+                lastText = "Son";
             }
 
             var part = new TagBuilder("li")

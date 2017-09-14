@@ -8,48 +8,74 @@
     @Model.kisiAdi @Model.kisiSoyadi <span>Kaydının Detaylı Bilgisi</span>
 </h2>
 
-<ul class="list-group">
-    <li class="list-group-item"><label>AD :</label>@Model.kisiAdi</li>
-    <li class="list-group-item"><label>SOYAD :</label>@Model.kisiSoyadi</li>
-    <li class="list-group-item"><label>MESLEK :</label>@Model.kisiMeslek</li>
-    <li class="list-group-item"><label>UNVAN :</label>@Model.kisiUnvan</li>
-    <li class="list-group-item">
-        <label>ŞİRKET :</label>
-        @if (Model.sirket == null)
-        { <span>Şirket Bilgisi Yok</span> }
-        else
-        {
-            <span>@Model.sirket.sirketAdi</span>
-        }
-    </li>
-    <li class="list-group-item">
-        <label>BİRİM</label>
-        @if (Model.birim == null)
-        { <span>Birim Bilgisi Yok</span> }
-        else
-        {
-            <span>@Model.birim.birimAdi</span>
-        }
-    </li>
-    @foreach (var item in Model.iletisimToKisis)
-    {
+<!-- HTML Code: Place this code in the document's body (between the 'body' tags) where the table should appear -->
 
-        <li class="list-group-item"><label>@item.iletisim.iletisimTip</label> @item.value</li>
-    }
-    @foreach (var item in Model.adres)
-    {
-
-        <li class="list-group-item"><label>Ulke :</label>@item.ulke.ulkeAdi</li>
-
-        <li class="list-group-item">
-            <label>sehir :</label>
-            @if (item.sehir != null)
+    <table class="table table-user-information">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Bilgiler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ad</td>
+                <td>@Model.kisiAdi</td>
+            </tr>
+            <tr>
+                <td>Soyad</td>
+                <td>@Model.kisiSoyadi</td>
+            </tr>
+            <tr>
+                <td>Meslek</td>
+                <td>@Model.kisiMeslek</td>
+            </tr>
+            <tr>
+                <td>Ünvan</td>
+                <td>@Model.kisiUnvan</td>
+            </tr>
+            <tr>
+                <td>Şirket</td>
+                <td>@Model.sirket.sirketAdi</td>
+            </tr>
+            <tr>
+                <td>Birim</td>
+                <td>@Model.birim.birimAdi</td>
+            </tr>
+            @foreach (var item in Model.iletisimToKisis)
             {
-                @item.sehir.sehirAdi
+                <tr>
+                    <td>@item.iletisim.iletisimTip</td>
+                    <td>@item.value</td>
+                </tr>
             }
-        </li>
-        <li class="list-group-item"><label>ilçe :</label>@item.adresIlce</li>
-        <li class="list-group-item"><label>posta kodu :</label>@item.adresPostaKodu</li>
-        <li class="list-group-item"><label>tip :</label>@item.adresTip</li>
-    }
-</ul>
+            @foreach (var item in Model.adres)
+            {
+                <tr>
+                    <td>Ülke</td>
+                    <td>@item.ulke.ulkeAdi</td>
+                </tr>
+                <tr>
+                    <td>İl</td>
+                    <td>
+                        @if (item.sehir != null)
+                { @item.sehir.sehirAdi }
+                else
+                { <span>-</span> }
+                </td>
+            </tr>
+
+            <tr>
+                <td>İlçe</td>
+                <td>@item.adresIlce</td>
+            </tr>
+            <tr>
+                <td>Posta Kodu</td>
+                <td>@item.adresPostaKodu</td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+
+<link href="~/Content/MyCss/table.css" rel="stylesheet" />

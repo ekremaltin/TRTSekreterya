@@ -15,15 +15,15 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">Search</a>
+            <a href="/Sirket/Liste" class="navbar-brand">Arama</a>
         </div>
         <div class="collapse navbar-collapse">
             @using (Html.BeginForm("Liste", "Sirket", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
             {
                 <div class="form-group">
-                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="search" />
+                    <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="Aranacak Kelime" />
                 </div>
-                    <button type="submit" value="Search" class="btn btn-success">Search</button>
+                    <button type="submit" value="Ara" class="btn btn-success">Ara</button>
             }
         </div>
     </div>
@@ -34,9 +34,9 @@
                 columns: grid.Columns(
                     grid.Column(columnName: "sirketAdi", header: "Şirket Adı"),
                     grid.Column(columnName: "sirketSektor", header: "Şirket Sektörü"),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDetail' value='Detay' onclick=\"getDetail('" + item.sirketID + "')\" />")),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnEdit' value='Düzenle' onclick=\"getEdit('" + item.sirketID + "')\" />")),
-                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDelete' value='Sil' onclick=\"getDelete('" + item.sirketID + "')\" />"))
+                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDetail' value='Detay' onclick=\"getDetail('" + item.sirketID + "')\" />"),style: "details"),
+                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnEdit' value='Düzenle' onclick=\"getEdit('" + item.sirketID + "')\" />"),style:"edit"),
+                    grid.Column(format: (item) => new HtmlString("<input type='button' id='btnDelete' value='Sil' onclick=\"getDelete('" + item.sirketID + "')\" />"),style:"delete")
                 )
             )
 
@@ -50,39 +50,7 @@
     @Html.Hidden("col", grid.SortColumn)
 
 </div>
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.sirketAdi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sirketSektor)
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.sirketAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sirketSektor)
-            </td>
-            <td>
-                @Html.ActionLink("Düzenle", "Duzenle", new { id = item.sirketID }) |
-
-                @Html.ActionLink("Detay", "Detay", new { id = item.sirketID }) |
-
-                <a id="silKontrol" href="/Sirket/Sil/@item.sirketID" onclick='return confirm("Emin misiniz");' class="glyphicon glyphicon-remove">Sil</a>
-            </td>
-        </tr>
-    }
-
-</table>*@
-
+<link href="~/Content/MyCss/gridCss.css" rel="stylesheet" />
 @section scripts{
 <script>
     $(function () {
